@@ -1,6 +1,6 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: __dirname + '/example/index.html',
+    template: __dirname + '/examples/index.html',
     filename: 'index.html',
     inject: 'body'
 });
@@ -8,7 +8,7 @@ var LiveReloadPlugin = require('webpack-livereload-plugin');
 
 module.exports = {
     entry: [
-        './src/podal.js'
+        './src/js/podal.js'
     ],
     output: {
         path: __dirname + '/dist',
