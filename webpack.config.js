@@ -1,18 +1,23 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
+const HtmlWebpackPlugin = require('html-webpack-plugin'),
+    LiveReloadPlugin = require('webpack-livereload-plugin'),
+    webpack = require('webpack');
+
+const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: __dirname + '/examples/index.html',
     filename: 'index.html',
     inject: 'body'
 });
-var LiveReloadPlugin = require('webpack-livereload-plugin');
 
-module.exports = {
-    entry: [
-        './src/js/podal.js'
-    ],
+var mini = process.env.NODE_ENV === "build" ? ".min": "";
+
+var config = {
+    entry: {
+        'podal': __dirname + '/src/js/podal.js',
+        'podal.jquery': __dirname + '/src/js/podal.jquery.js'
+    },
     output: {
-        path: __dirname + '/dist',
-        filename: 'podal.js'
+        path: __dirname,
+        filename: './dist/[name]' + mini + '.js'
     },
     module: {
         loaders: [
@@ -21,3 +26,14 @@ module.exports = {
     },
     plugins: [HtmlWebpackPluginConfig, new LiveReloadPlugin()]
 };
+
+if (process.env.NODE_ENV === "build") {
+    config.plugins.push(
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                screw_ie8: true
+            }
+        })
+    );
+}
+module.exports = config;

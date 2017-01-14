@@ -4,7 +4,8 @@
   "description": "Modal for Powercode",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "build": "NODE_ENV='build' webpack -p"
   },
   "author": "",
   "license": "ISC",

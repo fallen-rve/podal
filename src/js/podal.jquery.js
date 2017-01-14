@@ -1,4 +1,3 @@
-import {$} from jquery;
 (function IIFE() {
     $('.podal-box').on('click', function(e) {
         e.stopPropagation();
@@ -13,15 +12,16 @@ import {$} from jquery;
             $podalWrapper = $('.podal-wrapper');
         $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
     });
+    
 })();
 
 $.podal = function(action) {
     var $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
-    if (action['show'] == true) {
+    if (action.show === true) {
         $podalWrapper.show();
         $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
-    } else if (action['show'] == false) {
+    } else if (action.show === false) {
         $podalWrapper.hide();
     }
 };
