@@ -19,7 +19,7 @@ $.podal = function(action) {
         $podalBox = $('.podal-box');
 
     /* Global Settings */
-    var speed = typeof action['speed'] !== 'undefined' ? setProperty('speed', action) : 0, /* in ms */
+    const speed = typeof action['speed'] !== 'undefined' ? setProperty('speed', action) : 0, /* in ms */
         delay = typeof action['delay'] !== 'undefined' ? setProperty('delay', action) : 0; /* default no delay */
 
     $.each(action, function(state, value) {
@@ -36,11 +36,12 @@ $.podal = function(action) {
 
                 break;
             case 'processing':
-                var icon = "",
+                let loaderWrapper, loaderContent, $loaded,
+                    icon = "",
                     cls = "",
                     loaded = "podal-loader",
                     message = action['message'],
-                    $loadingBox = $('.podal-loading');
+                    $loadingBox = $loaded = $('.podal-loading');
 
                 switch (value) {
                     case 'save':
@@ -51,7 +52,7 @@ $.podal = function(action) {
                         break;
                     case 'success':
                         icon = "fa-check";
-                        cls = "podal-success"
+                        cls = "podal-success";
                         break;
                     case 'failed':
                         icon = "fa-times";
@@ -67,9 +68,8 @@ $.podal = function(action) {
                         return;
                 }
 
-                var loaderWrapper = "<div class='podal-loading'></div>",
-                    loaderContent = "<div class='" + loaded + " " + cls + "'></div><i class='fa fa-processing " + icon + "'></i><p>" + message + "</p>",
-                    $loaded = $('.podal-loading');
+                loaderWrapper = "<div class='podal-loading'></div>";
+                loaderContent = "<div class='" + loaded + " " + cls + "'></div><i class='fa fa-processing " + icon + "'></i><p>" + message + "</p>";
 
                 if ( $loaded.is(":visible") ) {
                     $loaded.delay(delay).html(loaderContent);
@@ -87,7 +87,7 @@ $.podal = function(action) {
 };
 
 function setProperty(index, action) {
-    var value = action[index];
+    let value = action[index];
     delete action[index];
     return value;
 }
