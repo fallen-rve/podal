@@ -1,5 +1,5 @@
-$(document).ready(function(){
-     $('.openPodal').click(function openPodalClick(){
-          $.podal({show: true});
-     });
+$(document).ready(function loaded() {
+    $('.openPodal').click(function openPodalClick() {
+        $.podal({show: true});
+    });
 });
