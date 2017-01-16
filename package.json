@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "NODE_ENV='build' webpack -p"
+    "watch": "sass --watch src/scss/podal.scss:src/css/podal.css",
+    "build": "NODE_ENV='build' webpack -p && sass src/scss/podal.scss:dist/podal.css --style compressed --sourcemap=none"
   },
   "author": "",
   "license": "ISC",
