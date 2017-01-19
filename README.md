@@ -1,6 +1,6 @@
 # Podal
 ----------------------------------------------------------
-
+#Take the Power of Modals into your hands!
 [Powercode](https://powercode.com/)'s Power Modal project. Pull requests are welcome!
 
 # Contributing and Support
