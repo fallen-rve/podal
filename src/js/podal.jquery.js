@@ -1,10 +1,12 @@
-(function IIFE($) {
+'use strict';
+
+(function IIFE() {
     $('.podal-box').on('click', function(e) {
         e.stopPropagation();
     });
 
     $('.podal-wrapper, .podal-close').on('click', function() {
-        $.podal({ show: false });
+        Podal({show: false});
     });
 
     $(window).on('resize', function(){
@@ -12,9 +14,10 @@
             $podalWrapper = $('.podal-wrapper');
         $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
     });
-})($);
 
-$.podal = function(action) {
+})();
+
+var Podal = function(action) {
     var $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
 
@@ -85,9 +88,3 @@ $.podal = function(action) {
         }
     });
 };
-
-function setProperty(index, action) {
-    let value = action[index];
-    delete action[index];
-    return value;
-}

@@ -5,10 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'),
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: __dirname + '/examples/index.html',
     filename: 'index.html',
-    inject: 'body'
+    inject: 'head'
 });
-
-var mini = process.env.NODE_ENV === "build" ? ".min": "";
+const dev = process.env.NODE_ENV !== "build";
 
 var config = {
     entry: {
@@ -17,7 +16,7 @@ var config = {
     },
     output: {
         path: __dirname,
-        filename: './dist/[name]' + mini + '.js'
+        filename:  dev ? './src/js/[name].js' : './dist/[name].js'
     },
     module: {
         loaders: [
