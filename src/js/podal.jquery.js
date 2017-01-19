@@ -40,7 +40,7 @@ export default podal = Podal = function Podal(action) {
                     $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
                 } else if (value == false) {
                     $podalWrapper.delay(delay).fadeOut(speed, function() {
-                        $.podal({ processing: false });
+                        podal({ processing: false });
                     });
                 }
 
@@ -96,7 +96,7 @@ export default podal = Podal = function Podal(action) {
     });
 };
 
-if (typeof window === 'undefined') {
+if (typeof window !== 'undefined') {
   window.podal = window.Podal = podal;
 } else {
   console.error('Something went very wrong');
