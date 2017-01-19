@@ -11,7 +11,7 @@ $(document).ready(function(){
     });
 
     $('.podal-wrapper, .podal-close').on('click', function() {
-        Podal({show: false});
+        PowerModal({show: false});
     });
 
     $(window).on('resize', function(){
@@ -22,9 +22,9 @@ $(document).ready(function(){
 
 });
 
-var podal, Podal;
+var podal, PowerModal;
 
-export default podal = Podal = function Podal(action) {
+export default podal = PowerModal = function Podal(action) {
     var $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
 
@@ -40,7 +40,7 @@ export default podal = Podal = function Podal(action) {
                     $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
                 } else if (value === false) {
                     $podalWrapper.delay(delay).fadeOut(speed, function() {
-                        podal({ processing: false });
+                        PowerModal({ processing: false });
                     });
                 }
 
@@ -103,7 +103,7 @@ export default podal = Podal = function Podal(action) {
 };
 
 if (typeof window !== 'undefined') {
-  window.podal = window.Podal = podal;
+  window.podal = window.PowerModal = podal;
 } else {
   console.error('Something went very wrong');
 }
