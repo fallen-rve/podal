@@ -29,16 +29,16 @@ export default podal = Podal = function Podal(action) {
         $podalBox = $('.podal-box');
 
     /* Global Settings */
-    const speed = typeof action['speed'] !== 'undefined' ? setProperty('speed', action) : 0, /* in ms */
-        delay = typeof action['delay'] !== 'undefined' ? setProperty('delay', action) : 0; /* default no delay */
+    const speed = typeof action.speed !== 'undefined' ? setProperty('speed', action) : 0, /* in ms */
+        delay = typeof action.delay !== 'undefined' ? setProperty('delay', action) : 0; /* default no delay */
 
     $.each(action, function(state, value) {
         switch (state) {
             case 'show':
-                if (value == true) {
+                if (value === true) {
                     $podalWrapper.fadeIn(speed);
                     $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
-                } else if (value == false) {
+                } else if (value === false) {
                     $podalWrapper.delay(delay).fadeOut(speed, function() {
                         podal({ processing: false });
                     });
@@ -46,11 +46,11 @@ export default podal = Podal = function Podal(action) {
 
                 break;
             case 'processing':
-                let loaderWrapper, loaderContent, $loaded,
-                    icon = "",
+                var loaderWrapper, loaderContent, $loaded;
+                var icon = "",
                     cls = "",
                     loaded = "podal-loader",
-                    message = action['message'],
+                    message = action.message,
                     $loadingBox = $loaded = $('.podal-loading');
 
                 switch (value) {
@@ -94,6 +94,12 @@ export default podal = Podal = function Podal(action) {
                 break;
         }
     });
+
+    function setProperty(index, action) {
+        let value = action[index];
+        delete action[index];
+        return value;
+    }
 };
 
 if (typeof window !== 'undefined') {
