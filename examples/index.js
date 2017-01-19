@@ -2,6 +2,6 @@
 
 $(document).ready(function loaded(){
      $('.openPodal').click(function openPodalClick(){
-          Podal({show: true});
+          podal({show: true});
      });
 });

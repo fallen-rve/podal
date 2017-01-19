@@ -1,6 +1,11 @@
 'use strict';
+const $ = require('jquery');
 
-(function IIFE() {
+// @TODO injectable html
+// @TODO create event handler functions
+// @TODO default parameters
+
+$(document).ready(function(){
     $('.podal-box').on('click', function(e) {
         e.stopPropagation();
     });
@@ -15,9 +20,11 @@
         $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
     });
 
-})();
+});
 
-var Podal = function(action) {
+var podal, Podal;
+
+export default podal = Podal = function Podal(action) {
     var $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
 
@@ -88,3 +95,9 @@ var Podal = function(action) {
         }
     });
 };
+
+if (typeof window === 'undefined') {
+  window.podal = window.Podal = podal;
+} else {
+  console.error('Something went very wrong');
+}
