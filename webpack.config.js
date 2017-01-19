@@ -7,7 +7,7 @@ const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     filename: 'index.html',
     inject: 'head'
 });
-const dev = process.env.NODE_ENV !== "build";
+const production = process.env.NODE_ENV === "build";
 
 var config = {
     entry: {
@@ -16,7 +16,7 @@ var config = {
     },
     output: {
         path: __dirname,
-        filename:  dev ? './src/js/[name].js' : './dist/[name].js'
+        filename:  production ? './dist/[name].js' : './src/js/[name].js'
     },
     module: {
         loaders: [
