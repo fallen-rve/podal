@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin'),
     webpack = require('webpack');
 
 const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: __dirname + '/examples/index.html',
+    template: __dirname + '/src/index.html',
     filename: 'index.html',
     inject: 'body'
 });
@@ -16,7 +16,7 @@ var config = {
     },
     output: {
         path: __dirname,
-        filename:  production ? './dist/[name].js' : './src/js/[name].js'
+        filename:  production ? './dist/[name].min.js' : './src/js/[name].js'
     },
     module: {
         loaders: [
