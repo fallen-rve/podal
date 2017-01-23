@@ -6,14 +6,14 @@ import extendClass from './modules/utils';
 // @TODO injectable html
 // @TODO create event handler functions
 // @TODO default parameters
-(function IIFE(){
+(function IIFE() {
     document.querySelector('.podal-box').onclick = (e) => e.stopPropagation();
     document.querySelector('.podal-wrapper, .podal-close').onclick = () => PowerModal({show: false});
 })();
 
 var podal, PowerModal;
 
-export default podal = PowerModal = function(action) {
+export default podal = PowerModal = function (action) {
     var params = extendClass({}, defaults);
     var $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
@@ -22,14 +22,14 @@ export default podal = PowerModal = function(action) {
     params.speed = typeof action.speed !== 'undefined' ? setProperty('speed', action) : defaults.speed;
     params.delay = typeof action.delay !== 'undefined' ? setProperty('delay', action) : defaults.delay;
 
-    $.each(action, function(state, value) {
+    $.each(action, function (state, value) {
         switch (state) {
             case 'show':
                 if (value === true) {
                     $podalWrapper.fadeIn(params.speed);
                 } else if (value === false) {
-                    $podalWrapper.delay(params.delay).fadeOut(params.speed, function() {
-                        PowerModal({ processing: false });
+                    $podalWrapper.delay(params.delay).fadeOut(params.speed, function () {
+                        PowerModal({processing: false});
                     });
                 }
 
@@ -70,13 +70,13 @@ export default podal = PowerModal = function(action) {
                 loaderWrapper = "<div class='podal-loading'></div>";
                 loaderContent = "<div class='" + loaded + " " + cls + "'></div><i class='fa fa-processing " + icon + "'></i><p>" + message + "</p>";
 
-                if ( $loaded.is(":visible") ) {
+                if ($loaded.is(":visible")) {
                     $loaded.delay(params.delay).html(loaderContent);
                     $loaded.children('.podal-loader').addClass('pop');
                     break;
                 }
 
-                $podalBox.delay(params.delay).prepend( $(loaderWrapper).append(loaderContent).fadeIn(params.speed) );
+                $podalBox.delay(params.delay).prepend($(loaderWrapper).append(loaderContent).fadeIn(params.speed));
 
                 break;
             default:
@@ -96,7 +96,7 @@ export default podal = PowerModal = function(action) {
 };
 
 if (typeof window !== 'undefined') {
-  window.podal = window.PowerModal = PowerModal;
+    window.podal = window.PowerModal = PowerModal;
 } else {
-  console.error('Something went very wrong');
+    console.error('Something went very wrong');
 }

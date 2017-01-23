@@ -1,7 +1,6 @@
 'use strict';
-
-$(document).ready(function loaded(){
-     $('.openPodal').click(function openPodalClick(){
-          podal({show: true});
-     });
-});
+(function IIFE() {
+    document.querySelector('.openPodal').onclick = function openPodalClick() {
+        podal({show: true});
+    };
+})();
