@@ -3,25 +3,13 @@ import $ from 'jquery';
 import defaults from './modules/defaults';
 import extendClass from './modules/utils';
 
-console.log(defaults);
-
 // @TODO injectable html
 // @TODO create event handler functions
 // @TODO default parameters
 (function IIFE(){
     document.querySelector('.podal-box').onclick = (e) => e.stopPropagation();
     document.querySelector('.podal-wrapper, .podal-close').onclick = () => PowerModal({show: false});
-    // window.onresize = () => resizePodal();
 })();
-
-$(document).ready(function(){
-    $(window).on('resize', function(){
-        var $podalBox = $('.podal-box'),
-            $podalWrapper = $('.podal-wrapper');
-        $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
-    });
-
-});
 
 var podal, PowerModal;
 
@@ -39,7 +27,6 @@ export default podal = PowerModal = function(action) {
             case 'show':
                 if (value === true) {
                     $podalWrapper.fadeIn(params.speed);
-                    $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
                 } else if (value === false) {
                     $podalWrapper.delay(params.delay).fadeOut(params.speed, function() {
                         PowerModal({ processing: false });
