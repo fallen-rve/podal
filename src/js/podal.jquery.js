@@ -8,7 +8,9 @@ import extendClass from './modules/utils';
 // @TODO default parameters
 (function IIFE() {
     document.querySelector('.podal-box').onclick = (e) => e.stopPropagation();
-    document.querySelector('.podal-wrapper, .podal-close').onclick = () => PowerModal({show: false});
+    [].forEach.call(document.querySelectorAll('.podal-wrapper, .podal-close'), function(e) {
+        e.onclick = () => PowerModal({show: false});
+    });
 })();
 
 var podal, PowerModal;
@@ -88,10 +90,6 @@ export default podal = PowerModal = function (action) {
         let value = action[index];
         delete action[index];
         return value;
-    }
-
-    function resizePodal() {
-
     }
 };
 
