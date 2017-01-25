@@ -10,16 +10,6 @@ $(document).ready(function() {
     $('body').on('click', '.podal-alert', function(e) {
         e.stopPropagation();
     });
-
-    $('body').on('click', '.podal-wrapper', function() {
-        podal({ show: false });
-    });
-
-    $(window).on('resize', function(){
-        var $podalBox = $('.podal-box:last'),
-            $podalWrapper = $('.podal-wrapper:last');
-        $podalBox.css('top', ($podalWrapper.height() / 2) - ($podalBox.height() / 2));
-    });
 });
 
 var podal = function(action, callback) {
@@ -30,16 +20,6 @@ var podal = function(action, callback) {
     if (typeof callback !== "function") {
         callback = function(){};
     }
-
-    /* Global Settings */
-    var speed = typeof action['speed'] !== 'undefined' ? setProperty('speed', action) : 0, /* in ms */
-        delay = typeof action['delay'] !== 'undefined' ? setProperty('delay', action) : 0, /* default no delay */
-        message = typeof action['message'] !== 'undefined' ? setProperty('message', action) : ""; /* default no message */
-
-    /* Default Popup Settings */
-    var cancelText = typeof action['cancelText'] !== 'undefined' ? setProperty('cancelText', action) : "", /* cancel button text */
-        confirmText = typeof action['confirmText'] !== 'undefined' ? setProperty('confirmText', action) : "", /* submit button text */
-        deleteText = typeof action['deleteText'] !== 'undefined' ? setProperty('deleteText', action) : ""; /* delete button text */
 
     $.each(action, function(state, value) {
         switch (state) {

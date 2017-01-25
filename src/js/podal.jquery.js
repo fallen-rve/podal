@@ -8,9 +8,9 @@ import extendClass from './modules/utils';
 // @TODO default parameters
 (function IIFE() {
     document.querySelector('.podal-box').onclick = (e) => e.stopPropagation();
-    [].forEach.call(document.querySelectorAll('.podal-wrapper, .podal-close'), function(e) {
-        e.onclick = () => PowerModal({show: false});
-    });
+
+    document.querySelector('.podal-wrapper').onclick = () => PowerModal({show: false});
+    document.querySelector('.podal-close').onclick = () => PowerModal({show: false});
 })();
 
 var podal, PowerModal;
@@ -21,8 +21,13 @@ export default podal = PowerModal = function (action) {
         $podalBox = $('.podal-box');
 
     /* Global Settings */
-    params.speed = typeof action.speed !== 'undefined' ? setProperty('speed', action) : defaults.speed;
-    params.delay = typeof action.delay !== 'undefined' ? setProperty('delay', action) : defaults.delay;
+    params.speed   = typeof action.speed !== 'undefined' ? setProperty('speed', action)   : defaults.speed;
+    params.delay   = typeof action.delay !== 'undefined' ? setProperty('delay', action)   : defaults.delay;
+    params.message = typeof action.delay !== 'undefined' ? setProperty('message', action) : defaults.message;
+
+    params.cancelText  = typeof action.cancelText  !== 'undefined' ? setProperty('cancelText', action)  : defaults.cancelText;
+    params.confirmText = typeof action.confirmText !== 'undefined' ? setProperty('confirmText', action) : defaults.confirmText;
+    params.deleteText  = typeof action.deleteText  !== 'undefined' ? setProperty('deleteText', action)  : defaults.deleteText;
 
     $.each(action, function (state, value) {
         switch (state) {
