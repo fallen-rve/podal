@@ -1,19 +1,10 @@
 {
-  "name": "podal",
-  "version": "0.0.1",
-  "description": "Modal for Powercode",
-  "main": "index.js",
-  "scripts": {
-    "clean": "rimraf ./dist/",
-    "compile": "npm run clean && npm run compile:js && npm run compile:scss",
-    "compile:js": "NODE_ENV='build' webpack -p",
-    "compile:scss": "sass src/scss/podal.scss:dist/podal.css --style compressed --sourcemap=none",
-    "dev": "webpack-dev-server --hot --inline",
-    "watch": "sass --watch src/scss/podal.scss:src/css/podal.css",
-    "build": "npm run compile"
-  },
   "author": "",
-  "license": "ISC",
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.1.1"
+  },
+  "description": "Modal for Powercode",
   "devDependencies": {
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
@@ -26,8 +17,17 @@
     "webpack": "^1.14.0",
     "webpack-dev-server": "^1.16.2"
   },
-  "dependencies": {
-    "font-awesome": "^4.7.0",
-    "jquery": "^3.1.1"
-  }
+  "license": "ISC",
+  "main": "index.js",
+  "name": "podal",
+  "scripts": {
+    "clean": "rimraf ./dist/",
+    "compile": "npm run clean && npm run compile:js && npm run compile:scss",
+    "compile:js": "NODE_ENV='build' webpack -p",
+    "compile:scss": "sass src/scss/podal.scss:dist/podal.css --style compressed --sourcemap=none",
+    "dev": "webpack-dev-server --hot --inline",
+    "watch": "sass --watch src/scss/podal.scss:src/css/podal.css",
+    "build": "npm run compile"
+  },
+  "version": "0.0.1"
 }
