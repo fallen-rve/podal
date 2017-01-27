@@ -4,13 +4,13 @@
   "description": "Modal for Powercode",
   "main": "index.js",
   "scripts": {
-    "clean": "rimraf ./dist/ && rimraf ./lib/",
-    "compile": "npm run clean && npm run compile:lib && npm run compile:dist",
-    "compile:dist": "npm run env NODE_ENV=production && webpack -p",
+    "clean": "rimraf ./lib/ && rimraf ./dist/",
+    "compile": "npm run clean && npm run compile:dist && npm run compile:lib",
+    "compile:dist": "NODE_ENV='build' webpack -p",
     "compile:lib": "sass src/scss/podal.scss:dist/podal.css --style compressed --sourcemap=none",
     "dev": "webpack-dev-server --hot --inline",
     "watch": "sass --watch src/scss/podal.scss:src/css/podal.css",
-    "build": "npm run env NODE_ENV=production && npm run compile"
+    "build": "npm run compile"
   },
   "author": "",
   "license": "ISC",

@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 
-const production = process.env.NODE_ENV === "production";
+const production = process.env.NODE_ENV === 'build';
 
 var config = {
     resolve: {
@@ -23,7 +23,8 @@ var config = {
             { test: /\.scss/, loaders: ["style-loader", "css-loader", "sass-loader"] },
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
         ]
-    }
+    },
+    plugins: []
 };
 
 if (production) {
