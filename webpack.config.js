@@ -1,15 +1,15 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin'),
-    LiveReloadPlugin = require('webpack-livereload-plugin'),
-    webpack = require('webpack');
+const webpack = require('webpack');
 
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-    template: __dirname + '/examples/index.html',
-    filename: 'index.html',
-    inject: 'body'
-});
-const production = process.env.NODE_ENV === "build";
+const production = process.env.NODE_ENV === "production";
 
 var config = {
+    resolve: {
+        extensions: [
+            '',
+            '.js',
+            '.scss'
+        ]
+    },
     entry: {
         'podal': __dirname + '/src/js/podal.js',
         'podal.jquery': __dirname + '/src/js/podal.jquery.js'
@@ -20,13 +20,13 @@ var config = {
     },
     module: {
         loaders: [
-            {test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'}
+            { test: /\.scss/, loaders: ["style-loader", "css-loader", "sass-loader"] },
+            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
         ]
-    },
-    plugins: [HtmlWebpackPluginConfig, new LiveReloadPlugin()]
+    }
 };
 
-if (process.env.NODE_ENV === "build") {
+if (production) {
     config.plugins.push(
         new webpack.optimize.UglifyJsPlugin({
             compress: {

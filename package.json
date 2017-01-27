@@ -4,9 +4,13 @@
   "description": "Modal for Powercode",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server",
+    "clean": "rimraf ./dist/ && rimraf ./lib/",
+    "compile": "npm run clean && npm run compile:lib && npm run compile:dist",
+    "compile:dist": "npm run env NODE_ENV=production && webpack -p",
+    "compile:lib": "sass src/scss/podal.scss:dist/podal.css --style compressed --sourcemap=none",
+    "dev": "webpack-dev-server --hot --inline",
     "watch": "sass --watch src/scss/podal.scss:src/css/podal.css",
-    "build": "NODE_ENV='build' webpack -p && sass src/scss/podal.scss:dist/podal.css --style compressed --sourcemap=none"
+    "build": "npm run env NODE_ENV=production && npm run compile"
   },
   "author": "",
   "license": "ISC",
@@ -14,10 +18,13 @@
     "babel-core": "^6.21.0",
     "babel-loader": "^6.2.10",
     "babel-preset-latest": "^6.16.0",
-    "html-webpack-plugin": "^2.24.1",
+    "css-loader": "^0.26.1",
+    "node-sass": "^4.3.0",
+    "rimraf": "^2.5.4",
+    "sass-loader": "^4.1.1",
+    "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2",
-    "webpack-livereload-plugin": "^0.9.0"
+    "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
     "font-awesome": "^4.7.0",
