@@ -1,4 +1,5 @@
 'use strict';
+import styles from '../css/podal.css'
 import $ from 'jquery';
 import defaults from './modules/defaults';
 import extendClass from './modules/utils';

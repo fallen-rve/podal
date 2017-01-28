@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 const production = process.env.NODE_ENV === 'build';
 
@@ -21,11 +22,11 @@ var config = {
     },
     module: {
         loaders: [
-            { test: /\.scss/, loaders: ["style-loader", "css-loader", "sass-loader"] },
+            { test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
             { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
         ]
     },
-    plugins: []
+    plugins: [new ExtractTextPlugin("podal.css")]
 };
 
 if (production) {
