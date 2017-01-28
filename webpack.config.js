@@ -16,7 +16,8 @@ var config = {
     },
     output: {
         path: __dirname,
-        filename:  production ? './dist/[name].min.js' : './src/js/[name].js'
+        filename:  production ? './dist/[name].min.js' : './src/js/[name].js',
+        library: 'podal'
     },
     module: {
         loaders: [

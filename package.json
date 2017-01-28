@@ -25,7 +25,7 @@
     "compile": "npm run clean && npm run compile:js && npm run compile:scss",
     "compile:js": "NODE_ENV='build' webpack -p",
     "compile:scss": "sass src/scss/podal.scss:dist/podal.css --style compressed --sourcemap=none",
-    "dev": "webpack-dev-server --hot --inline",
+    "dev": "webpack-dev-server --hot --inline --content-base examples",
     "watch": "sass --watch src/scss/podal.scss:src/css/podal.css",
     "build": "npm run compile"
   },

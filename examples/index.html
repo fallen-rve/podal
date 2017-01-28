@@ -23,6 +23,14 @@
         </div>
     </div>
 </div>
-<script src="./examples/index.js"></script>
+<script src="http://localhost:8080/src/js/podal.jquery.js"></script>
+<script>
+(function IIFE() {
+    'use strict';
+    document.querySelector('.openPodal').onclick = function openPodalClick() {
+        podal({show: true});
+    };
+})();
+</script>
 </body>
 </html>
