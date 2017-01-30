@@ -7,6 +7,7 @@ import extendClass from './modules/utils';
 // @TODO injectable html
 // @TODO create event handler functions
 // @TODO default parameters
+// @TODO make close icon :after
 (function IIFE() {
     let podalBox = document.querySelector('.podal-box');
     podalBox.onclick = e => e.stopPropagation();
