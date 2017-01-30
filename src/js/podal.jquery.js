@@ -1,5 +1,5 @@
 'use strict';
-import styles from '../css/podal.css'
+import styles from '../css/podal.css';
 import $ from 'jquery';
 import defaults from './modules/defaults';
 import extendClass from './modules/utils';
@@ -8,17 +8,18 @@ import extendClass from './modules/utils';
 // @TODO create event handler functions
 // @TODO default parameters
 (function IIFE() {
-    document.querySelector('.podal-box').onclick = (e) => e.stopPropagation();
+    let podalBox = document.querySelector('.podal-box');
+    podalBox.onclick = e => e.stopPropagation();
 
     document.querySelector('.podal-wrapper').onclick = () => PowerModal({show: false});
     document.querySelector('.podal-close').onclick = () => PowerModal({show: false});
 })();
 
-var podal, PowerModal;
+let podal, PowerModal;
 
 export default podal = PowerModal = function (action) {
-    var params = extendClass({}, defaults);
-    var $podalWrapper = $('.podal-wrapper'),
+    let params = extendClass({}, defaults);
+    let $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
 
     /* Global Settings */
@@ -38,16 +39,16 @@ export default podal = PowerModal = function (action) {
                 } else if (value === false) {
                     $podalWrapper.delay(params.delay).fadeOut(params.speed, function () {
                         PowerModal({processing: false});
+                        $('.podal-alert').closest('.podal-wrapper').remove();
                     });
                 }
 
                 break;
             case 'processing':
-                var loaderWrapper, loaderContent, $loaded, $loadingBox, icon, cls, loaded, message;
+                let loaderWrapper, loaderContent, $loaded, $loadingBox, icon, cls, loaded;
                 icon = "";
                 cls = "";
                 loaded = "podal-loader";
-                message = action.message;
                 $loadingBox = $loaded = $('.podal-loading');
 
                 switch (value) {
@@ -60,23 +61,29 @@ export default podal = PowerModal = function (action) {
                     case 'success':
                         icon = "fa-check";
                         cls = "podal-success";
+                        loaded = "podal-loaded";
                         break;
                     case 'failed':
                         icon = "fa-times";
                         cls = "podal-failed";
+                        loaded = "podal-loaded";
                         break;
                     case 'deleted':
                         icon = "fa-trash-o";
                         cls = "podal-failed";
+                        loaded = "podal-loaded";
                         break;
                     default:
                         loaded = "";
-                        $loadingBox.delay(params.delay).fadeOut(params.speed);
+                        $loadingBox.delay(params.delay).fadeOut(params.speed, function() {
+                            $loadingBox.remove();
+                            $(this).remove();
+                        });
                         return;
                 }
 
                 loaderWrapper = "<div class='podal-loading'></div>";
-                loaderContent = "<div class='" + loaded + " " + cls + "'></div><i class='fa fa-processing " + icon + "'></i><p>" + message + "</p>";
+                loaderContent = "<div class='" + loaded + " " + cls + "'></div><i class='fa fa-processing " + icon + "'></i><p>" + params.message + "</p>";
 
                 if ($loaded.is(":visible")) {
                     $loaded.delay(params.delay).html(loaderContent);

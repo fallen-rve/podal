@@ -43,6 +43,10 @@
   background-color: transparent;
   z-index: 1;
 
+  &.podal-hidden {
+    display: none;
+  }
+
   .podal-loading {
     display: none;
     background-color: #F5F5F5;
@@ -207,10 +211,8 @@
       left: calc(50% - 1.1em - 40px);
       font-size: 10px;
       text-indent: -9999em;
-      border-top: 1.1em solid #d8d8d8;
-      border-right: 1.1em solid #d8d8d8;
-      border-bottom: 1.1em solid #d8d8d8;
-      border-left: 1.1em solid #ababab;
+      border: 1.1em solid #d8d8d8;
+      border-left: #ababab;
       -webkit-transform: translateZ(0);
       -ms-transform: translateZ(0);
       transform: translateZ(0);
@@ -224,7 +226,6 @@
       -webkit-animation: none !important;
       -moz-animation: none !important;
       -o-animation: none !important;
-      -ms-animation: none !important;
       animation: none !important;
     }
     .podal-success {

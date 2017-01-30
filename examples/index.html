@@ -9,7 +9,7 @@
 </head>
 <body>
 <button class="openPodal">Open Modal</button>
-<div class="podal-wrapper" style="display: none;">
+<div class="podal-wrapper podal-hidden">
     <div class="podal-box">
         <div class="podal-title">
             <h3>A title Here<i class="fa fa-times podal-close"></i></h3>
@@ -18,8 +18,10 @@
             body
         </div>
         <div class="podal-footer">
-            <button type="submit" value="Submit" class="buttonLink goodButton">Submit</button>
-            <button type="reset" value="Cancel" class="buttonLink">Clear</button>
+            <div class="buttonWrapper">
+                <button type="submit" value="Submit" class="podal-submit">Submit</button>
+                <button type="reset" value="Cancel" class="podal-clear">Clear</button>
+            </div>
         </div>
     </div>
 </div>
