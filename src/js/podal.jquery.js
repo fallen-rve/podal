@@ -3,6 +3,7 @@ import styles from '../css/podal.css';
 import $ from 'jquery';
 import defaults from './modules/defaults';
 import extendClass from './modules/utils';
+import * as dom from './modules/dom';
 
 // @TODO injectable html
 // @TODO create event handler functions
@@ -16,32 +17,23 @@ import extendClass from './modules/utils';
     document.querySelector('.podal-close').onclick = () => podal({show: false});
 })();
 
-let podal;
-
-export default podal = function (action) {
-    let params = extendClass({}, defaults);
+let podal = function (action) {
+    let params = extendClass(defaults, action);
     let $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
-
-    /* Global Settings */
-    params.speed   = typeof action.speed !== 'undefined' ? setProperty('speed', action)   : defaults.speed;
-    params.delay   = typeof action.delay !== 'undefined' ? setProperty('delay', action)   : defaults.delay;
-    params.message = typeof action.delay !== 'undefined' ? setProperty('message', action) : defaults.message;
-
-    params.cancelText  = typeof action.cancelText  !== 'undefined' ? setProperty('cancelText', action)  : defaults.cancelText;
-    params.confirmText = typeof action.confirmText !== 'undefined' ? setProperty('confirmText', action) : defaults.confirmText;
-    params.deleteText  = typeof action.deleteText  !== 'undefined' ? setProperty('deleteText', action)  : defaults.deleteText;
 
     $.each(action, function (state, value) {
         switch (state) {
             case 'show':
                 if (value === true) {
-                    $podalWrapper.fadeIn(params.speed);
+                    podal.show();
+                    // $podalWrapper.fadeIn(params.speed);
                 } else if (value === false) {
-                    $podalWrapper.delay(params.delay).fadeOut(params.speed, function () {
-                        podal({processing: false});
-                        $('.podal-alert').closest('.podal-wrapper').remove();
-                    });
+                    podal.close();
+                    // $podalWrapper.delay(params.delay).fadeOut(params.speed, function () {
+                        // podal({processing: false});
+                        // $('.podal-alert').closest('.podal-wrapper').remove();
+                    // });
                 }
 
                 break;
@@ -100,11 +92,29 @@ export default podal = function (action) {
         }
     });
 
-    function setProperty(index, action) {
-        let value = action[index];
-        delete action[index];
-        return value;
+};
+podal.processing = (toggle) => {
+    console.log(toggle);
+};
+
+podal.showPodal = podal.show = () => {
+    let podal = dom.getPodal();
+
+    if (dom.isVisible(podal)) {
+        console.log('it\'s already open!');
     }
+
+    podal.style.opacity = '';
+    podal.style.display = '';
+    dom.removeClass(podal, 'podal-hidden');
+};
+
+podal.closePodal = podal.close = () => {
+    let podal = dom.getPodal();
+    if (!dom.isVisible(podal)) {
+        console.log('It\'s already closed!');
+    }
+    dom.addClass(podal, 'podal-hidden');
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
