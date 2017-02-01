@@ -9,5 +9,7 @@
   "unused":    true,
   "onecase":   true,
   "lastsemic": true,
-  "esversion": 6
+  "esversion": 6,
+  "indent":4,
+  "white":true
 }
