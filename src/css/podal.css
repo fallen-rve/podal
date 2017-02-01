@@ -30,7 +30,7 @@
   right: 0;
   position: fixed;
   padding: 10px;
-  background-color: transparent;
+  background-color: rgba(0, 0, 0, 0.8);
   z-index: 1; }
   .podal-wrapper.podal-hidden {
     display: none; }
