@@ -12,13 +12,13 @@ import extendClass from './modules/utils';
     let podalBox = document.querySelector('.podal-box');
     podalBox.onclick = e => e.stopPropagation();
 
-    document.querySelector('.podal-wrapper').onclick = () => PowerModal({show: false});
-    document.querySelector('.podal-close').onclick = () => PowerModal({show: false});
+    document.querySelector('.podal-wrapper').onclick = () => podal({show: false});
+    document.querySelector('.podal-close').onclick = () => podal({show: false});
 })();
 
-let podal, PowerModal;
+let podal;
 
-export default podal = PowerModal = function (action) {
+export default podal = function (action) {
     let params = extendClass({}, defaults);
     let $podalWrapper = $('.podal-wrapper'),
         $podalBox = $('.podal-box');
@@ -39,7 +39,7 @@ export default podal = PowerModal = function (action) {
                     $podalWrapper.fadeIn(params.speed);
                 } else if (value === false) {
                     $podalWrapper.delay(params.delay).fadeOut(params.speed, function () {
-                        PowerModal({processing: false});
+                        podal({processing: false});
                         $('.podal-alert').closest('.podal-wrapper').remove();
                     });
                 }
@@ -107,8 +107,8 @@ export default podal = PowerModal = function (action) {
     }
 };
 
-if (typeof window !== 'undefined') {
-    window.podal = window.PowerModal = PowerModal;
+if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
+    module.exports = podal;
 } else {
-    console.error('Something went very wrong');
+    window.podal = window.PowerModal = podal;
 }
