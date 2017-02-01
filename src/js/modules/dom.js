@@ -23,3 +23,10 @@ export const addClass = (elem, className) => {
         elem.classList.add(className);
     });
 };
+
+export const hasClass = (elem, className) => {
+    if (elem.classList) {
+        return elem.classList.contains(className)
+    }
+    return false;
+};
