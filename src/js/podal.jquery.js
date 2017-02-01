@@ -4,36 +4,34 @@ import $ from 'jquery';
 import defaults from './modules/defaults';
 import extendClass from './modules/utils';
 import * as dom from './modules/dom';
+import {podalClasses} from './modules/classes';
 
 // @TODO injectable html
 // @TODO create event handler functions
-// @TODO default parameters
 // @TODO make close icon :after
 (function IIFE() {
-    let podalBox = document.querySelector('.podal-box');
-    podalBox.onclick = e => e.stopPropagation();
+    document.querySelector(`.${podalClasses.wrapper}`).addEventListener('click', (e) => {
+        if (dom.hasClass(e.target, podalClasses.close) || dom.hasClass(e.target, podalClasses.wrapper)) {
+            podal.close();
+            return;
+        }
+        e.stopPropagation();
+    });
 
-    document.querySelector('.podal-wrapper').onclick = () => podal({show: false});
-    document.querySelector('.podal-close').onclick = () => podal({show: false});
 })();
 
 let podal = function (action) {
     let params = extendClass(defaults, action);
-    let $podalWrapper = $('.podal-wrapper'),
-        $podalBox = $('.podal-box');
+    let $podalWrapper = $(`.${podalClasses.wrapper}`),
+        $podalBox = $(`.${podalClasses.box}`);
 
     $.each(action, function (state, value) {
         switch (state) {
             case 'show':
                 if (value === true) {
-                    podal.show();
-                    // $podalWrapper.fadeIn(params.speed);
+                    podal.open();
                 } else if (value === false) {
                     podal.close();
-                    // $podalWrapper.delay(params.delay).fadeOut(params.speed, function () {
-                        // podal({processing: false});
-                        // $('.podal-alert').closest('.podal-wrapper').remove();
-                    // });
                 }
 
                 break;
@@ -97,24 +95,27 @@ podal.processing = (toggle) => {
     console.log(toggle);
 };
 
-podal.showPodal = podal.show = () => {
-    let podal = dom.getPodal();
+podal.openPodal = podal.open = () => {
+    //@TODO handle fade in
+    let modal = dom.getPodal();
 
-    if (dom.isVisible(podal)) {
+    if (dom.isVisible(modal)) {
         console.log('it\'s already open!');
     }
 
-    podal.style.opacity = '';
-    podal.style.display = '';
-    dom.removeClass(podal, 'podal-hidden');
+    modal.style.opacity = '';
+    modal.style.display = '';
+    dom.removeClass(modal, 'podal-hidden');
 };
 
 podal.closePodal = podal.close = () => {
-    let podal = dom.getPodal();
-    if (!dom.isVisible(podal)) {
+    //@TODO handle fade out
+    let modal = dom.getPodal();
+    if (!dom.isVisible(modal)) {
         console.log('It\'s already closed!');
     }
-    dom.addClass(podal, 'podal-hidden');
+    dom.addClass(modal, 'podal-hidden');
+    podal.processing(false);
 };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
