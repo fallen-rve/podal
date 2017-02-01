@@ -25,6 +25,14 @@ let podal = function (action) {
     let $podalWrapper = $(`.${podalClasses.wrapper}`),
         $podalBox = $(`.${podalClasses.box}`);
 
+    if (typeof action === "undefined") {
+        return {
+            open: podal.open,
+            close: podal.close,
+            process: podal.process
+        };
+    }
+
     $.each(action, function (state, value) {
         switch (state) {
             case 'show':
@@ -91,7 +99,7 @@ let podal = function (action) {
     });
 
 };
-podal.processing = (toggle) => {
+podal.process = (toggle) => {
     console.log(toggle);
 };
 
@@ -115,8 +123,10 @@ podal.closePodal = podal.close = () => {
         console.log('It\'s already closed!');
     }
     dom.addClass(modal, 'podal-hidden');
-    podal.processing(false);
+    podal.process(false);
 };
+
+podal.preProcess = (callback) => { if (typeof callback === "function") callback(); };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = podal;
