@@ -19,11 +19,11 @@ import {podalClasses} from './modules/classes';
     });
 
 })();
+let podalParams = extendClass({}, defaults);
 
 let podal = function (action) {
-    let params = extendClass(defaults, action);
-    let $podalWrapper = $(`.${podalClasses.wrapper}`),
-        $podalBox = $(`.${podalClasses.box}`);
+    podalParams = extendClass(defaults, action);
+    let $podalBox = $(`.${podalClasses.box}`);
 
     if (typeof action === "undefined") {
         return {
@@ -47,8 +47,8 @@ let podal = function (action) {
                 let loaderWrapper, loaderContent, $loaded, $loadingBox, icon, cls, loaded;
                 icon = "";
                 cls = "";
-                loaded = "podal-loader";
-                $loadingBox = $loaded = $('.podal-loading');
+                loaded = podalClasses.loaded;
+                $loadingBox = $loaded = $(podalClasses.loading);
 
                 switch (value) {
                     case 'save':
@@ -59,38 +59,35 @@ let podal = function (action) {
                         break;
                     case 'success':
                         icon = "fa-check";
-                        cls = "podal-success";
-                        loaded = "podal-loaded";
+                        cls = podalClasses.success;
                         break;
                     case 'failed':
                         icon = "fa-times";
-                        cls = "podal-failed";
-                        loaded = "podal-loaded";
+                        cls = podalClasses.failed;
                         break;
                     case 'deleted':
                         icon = "fa-trash-o";
-                        cls = "podal-failed";
-                        loaded = "podal-loaded";
+                        cls = podalClasses.failed;
                         break;
                     default:
                         loaded = "";
-                        $loadingBox.delay(params.delay).fadeOut(params.speed, function() {
+                        $loadingBox.delay(podalParams.delay).fadeOut(podalParams.speed, function() {
                             $loadingBox.remove();
                             $(this).remove();
                         });
                         return;
                 }
 
-                loaderWrapper = "<div class='podal-loading'></div>";
-                loaderContent = "<div class='" + loaded + " " + cls + "'></div><i class='fa fa-processing " + icon + "'></i><p>" + params.message + "</p>";
+                loaderWrapper = `<div class='${podalClasses.loading}'></div>`;
+                loaderContent = `<div class='${loaded} ${cls}'></div><i class='fa fa-processing ${icon}'></i><p>${podalParams.message}</p>`;
 
-                if ($loaded.is(":visible")) {
-                    $loaded.delay(params.delay).html(loaderContent);
+                if (dom.isVisible(loaded)) {
+                    $loaded.delay(podalParams.delay).html(loaderContent);
                     $loaded.children('.podal-loader').addClass('pop');
                     break;
                 }
 
-                $podalBox.delay(params.delay).prepend($(loaderWrapper).append(loaderContent).fadeIn(params.speed));
+                $podalBox.delay(podalParams.delay).prepend($(loaderWrapper).append(loaderContent).fadeIn(podalParams.speed));
 
                 break;
             default:
@@ -100,7 +97,9 @@ let podal = function (action) {
 
 };
 podal.process = (toggle) => {
+    podal.preProcess(podalParams.preProcess);
     console.log(toggle);
+    podal.postProcess(podalParams.postProcess);
 };
 
 podal.openPodal = podal.open = () => {
@@ -113,7 +112,7 @@ podal.openPodal = podal.open = () => {
 
     modal.style.opacity = '';
     modal.style.display = '';
-    dom.removeClass(modal, 'podal-hidden');
+    dom.removeClass(modal, podalClasses.hidden);
 };
 
 podal.closePodal = podal.close = () => {
@@ -122,11 +121,12 @@ podal.closePodal = podal.close = () => {
     if (!dom.isVisible(modal)) {
         console.log('It\'s already closed!');
     }
-    dom.addClass(modal, 'podal-hidden');
+    dom.addClass(modal, podalClasses.hidden);
     podal.process(false);
 };
 
-podal.preProcess = (callback) => { if (typeof callback === "function") callback(); };
+podal.preProcess  = (callback) => { if (typeof callback === "function") { callback(); } else { console.error("preProcess callback must be a function!"); } };
+podal.postProcess = (callback) => { if (typeof callback === "function") { callback(); } else { console.error("postProcess Callback must be a function!"); } };
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = podal;
