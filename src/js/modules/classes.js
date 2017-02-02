@@ -21,7 +21,8 @@ export const podalClasses = prefix([
     'alert',
     'loaded',
     'loading',
-    'loader'
+    'loader',
+    'hidden'
 ]);
 
 export const iconTypes = prefix([
