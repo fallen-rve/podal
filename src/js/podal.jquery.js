@@ -112,7 +112,7 @@ podal.openPodal = podal.open = () => {
 
     modal.style.opacity = '';
     modal.style.display = '';
-    dom.removeClass(modal, podalClasses.hidden);
+    dom.removeClass(modal, podalClasses.hide);
 };
 
 podal.closePodal = podal.close = () => {
@@ -121,7 +121,7 @@ podal.closePodal = podal.close = () => {
     if (!dom.isVisible(modal)) {
         console.log('It\'s already closed!');
     }
-    dom.addClass(modal, podalClasses.hidden);
+    dom.addClass(modal, podalClasses.hide);
     podal.process(false);
 };
 
