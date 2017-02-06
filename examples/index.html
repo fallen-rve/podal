@@ -29,9 +29,11 @@
     'use strict';
     document.querySelector('.openPodal').onclick = function openPodalClick() {
         podal({show: true});
-        var modal = podal();
-//        modal.open();
     };
+    document.querySelector('.podal-submit').onclick = function submittedClick() {
+        podal({show: false});
+        podal({show: true, confirm: 'success', message: 'You Clicked!'});
+    }
 })();
 </script>
 </body>
