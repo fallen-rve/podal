@@ -10,7 +10,7 @@ import {podalClasses} from './modules/classes';
 // @TODO create event handler functions
 // @TODO make close icon :after
 (function IIFE() {
-    document.querySelector(`.${podalClasses.wrapper}`).addEventListener('click', (e) => {
+    document.body.addEventListener('click', (e) => {
         if (dom.hasClass(e.target, podalClasses.close) || dom.hasClass(e.target, podalClasses.wrapper)) {
             podal.close();
             return;
@@ -21,9 +21,14 @@ import {podalClasses} from './modules/classes';
 })();
 let podalParams = extendClass({}, defaults);
 
-let podal = function (action) {
+let podal = function(action, callback = () => {}) {
     podalParams = extendClass(defaults, action);
-    let $podalBox = $(`.${podalClasses.box}`);
+    let $podalBox = $(`.${podalClasses.box}`),
+        isConfirm = false;
+
+    if (typeof callback !== "function") {
+        console.error("Callback must be a function!");
+    }
 
     if (typeof action === "undefined") {
         return {
@@ -82,19 +87,129 @@ let podal = function (action) {
                 loaderContent = `<div class='${loaded} ${cls}'></div><i class='fa fa-processing ${icon}'></i><p>${podalParams.message}</p>`;
 
                 if (dom.isVisible(loaded)) {
-                    $loaded.delay(podalParams.delay).html(loaderContent);
-                    $loaded.children('.podal-loader').addClass('pop');
+                    $loaded.delay(podalParams.delay).show(1, function() {
+                        $(this).html(loaderContent);
+                        if ((icon !== 'fa-hdd-o') && (icon !== 'fa-floppy-o')) {
+                            $loaded.children('.podal-loader').removeClass('podal-loaded').addClass('pop');
+                        }
+                    });
                     break;
                 }
 
-                $podalBox.delay(podalParams.delay).prepend($(loaderWrapper).append(loaderContent).fadeIn(podalParams.speed));
+                $podalBox.delay(podalParams.delay).show(1, function() {
+                    $(this).prepend($(loaderWrapper).append(loaderContent).fadeIn(podalParams.peed));
+                });
+
+                break;
+            case 'confirm':
+                switch (value) {
+                    case 'warning':
+                        cls = "podal-warning";
+                        loaded = "podal-loaded";
+                        icon = "fa-exclamation";
+                        break;
+                    case 'delete':
+                        cls = "podal-failed";
+                        loaded = "podal-loaded";
+                        icon = "fa-trash";
+                        break;
+                    case 'load':
+                        cls = "podal-loading";
+                        loaded = "fa-loading";
+                        icon = "fa-hdd-o";
+                        break;
+                    case 'failed':
+                        cls = "podal-failed";
+                        loaded = "podal-loaded";
+                        icon = "fa-times";
+                        break;
+                    case 'success':
+                        cls = "podal-success";
+                        loaded = "podal-loaded";
+                        icon = "fa-check";
+                        break;
+                    default:
+                        cls = "";
+                        return;
+                }
+
+                var cancelElement = "",
+                    confirmElement = "",
+                    deleteElement = "",
+                    styleTop = "";
+
+                if (podalParams.cancelText) {
+                    cancelElement = "<button type='button' class='alert-cancel'>" + podalParams.cancelText + "</button>";
+                }
+
+                if (podalParams.confirmText) {
+                    confirmElement = "<button type='button' class='alert-confirm'>" + podalParams.confirmText + "</button>";
+                }
+
+                if (podalParams.deleteText) {
+                    deleteElement = "<button type='button' class='alert-delete'>" + podalParams.deleteText + "</button>";
+                }
+
+                if (!podalParams.cancelText && !podalParams.confirmText && !podalParams.deleteText) {
+                    styleTop = "style='top: 68%'";
+                }
+
+                var podalPopup = `
+                <div class='${podalClasses.wrapper}'>
+                    <div class='${podalClasses.box}'>
+                        <div class='${podalClasses.loading} ${podalClasses.alert}'>
+                            <div class='${podalClasses.loader} ${loaded} ${cls}'></div>
+                            <i class='fa fa-processing ${icon}'></i>
+                            <p ${styleTop}>${podalParams.message}</p>
+                            <div class='button-wrapper'>
+                                ${cancelElement} ${confirmElement} ${deleteElement}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `.replace(/(^|\n)\s*/g, '');
+
+                $('body').delay(podalParams.delay).append(podalPopup);
+
+                var $lastPodal = $('.podal-wrapper:last'),
+                    $lastBox = $lastPodal.find('.podal-box'),
+                    $lastLoader = $lastBox.find('.podal-loading');
+
+                if (podalParams.cancelText) {
+                    $lastBox.find('.alert-cancel').one('click', function() {
+                        $lastPodal.remove();
+                    });
+                }
+
+                if (podalParams.confirmText || podalParams.deleteText) {
+                    $lastLoader.show();
+                    $lastPodal.delay(podalParams.delay).fadeIn(podalParams.speed);
+
+                    $lastLoader.addClass('pop');
+
+                    $('.alert-delete, .alert-confirm').one('click', function() {
+                        $lastPodal.delay(podalParams.delay).fadeIn(podalParams.speed, function() {
+                            callback(true);
+                            $lastPodal.remove();
+                        });
+                    });
+                } else {
+                    $lastLoader.show();
+                    $lastPodal.fadeIn(podalParams.peed, function() {
+                        if (podalParams.delay) {
+                            $lastPodal.delay(podalParams.delay).fadeOut(podalParams.peed, function() {
+                                $lastPodal.remove();
+                            });
+                        }
+                    });
+                }
 
                 break;
             default:
                 break;
         }
     });
-
+    return callback(isConfirm);
 };
 podal.process = (toggle) => {
     podal.preProcess(podalParams.preProcess);
@@ -125,8 +240,20 @@ podal.closePodal = podal.close = () => {
     podal.process(false);
 };
 
-podal.preProcess  = (callback) => { if (typeof callback === "function") { callback(); } else { console.error("preProcess callback must be a function!"); } };
-podal.postProcess = (callback) => { if (typeof callback === "function") { callback(); } else { console.error("postProcess Callback must be a function!"); } };
+podal.preProcess = (callback) => {
+    if (typeof callback === "function") {
+        callback();
+    } else {
+        console.error("preProcess callback must be a function!");
+    }
+};
+podal.postProcess = (callback) => {
+    if (typeof callback === "function") {
+        callback();
+    } else {
+        console.error("postProcess Callback must be a function!");
+    }
+};
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = podal;
