@@ -23,19 +23,18 @@ let podalParams = extendClass({}, defaults);
 
 let podal = function(action, callback = () => {}) {
     podalParams = extendClass(defaults, action);
-    let $podalBox = $(`.${podalClasses.box}`),
+    let podalBox = document.querySelector(`.${podalClasses.box}`),
         isConfirm = false;
-
-    if (typeof callback !== "function") {
-        console.error("Callback must be a function!");
-    }
-
     if (typeof action === "undefined") {
         return {
             open: podal.open,
             close: podal.close,
             process: podal.process
         };
+    }
+
+    if (typeof callback !== "function") {
+        console.error("Callback must be a function!");
     }
 
     $.each(action, function (state, value) {
@@ -139,15 +138,15 @@ let podal = function(action, callback = () => {}) {
                     styleTop = "";
 
                 if (podalParams.cancelText) {
-                    cancelElement = "<button type='button' class='alert-cancel'>" + podalParams.cancelText + "</button>";
+                    cancelElement = `<button type='button' class='alert-cancel'>${podalParams.cancelText}</button>`;
                 }
 
                 if (podalParams.confirmText) {
-                    confirmElement = "<button type='button' class='alert-confirm'>" + podalParams.confirmText + "</button>";
+                    confirmElement = `<button type='button' class='alert-confirm'>${podalParams.confirmText}</button>`;
                 }
 
                 if (podalParams.deleteText) {
-                    deleteElement = "<button type='button' class='alert-delete'>" + podalParams.deleteText + "</button>";
+                    deleteElement = `<button type='button' class='alert-delete'>${podalParams.deleteText}</button>`;
                 }
 
                 if (!podalParams.cancelText && !podalParams.confirmText && !podalParams.deleteText) {
@@ -155,21 +154,23 @@ let podal = function(action, callback = () => {}) {
                 }
 
                 var podalPopup = `
-                <div class='${podalClasses.wrapper}'>
-                    <div class='${podalClasses.box}'>
-                        <div class='${podalClasses.loading} ${podalClasses.alert}'>
-                            <div class='${podalClasses.loader} ${loaded} ${cls}'></div>
-                            <i class='fa fa-processing ${icon}'></i>
-                            <p ${styleTop}>${podalParams.message}</p>
-                            <div class='button-wrapper'>
-                                ${cancelElement} ${confirmElement} ${deleteElement}
-                            </div>
+                <div class='${podalClasses.box}'>
+                    <div class='${podalClasses.loading} ${podalClasses.alert}'>
+                        <div class='${podalClasses.loader} ${loaded} ${cls}'></div>
+                        <i class='fa fa-processing ${icon}'></i>
+                        <p ${styleTop}>${podalParams.message}</p>
+                        <div class='button-wrapper'>
+                            ${cancelElement} ${confirmElement} ${deleteElement}
                         </div>
                     </div>
                 </div>
                 `.replace(/(^|\n)\s*/g, '');
 
-                $('body').delay(podalParams.delay).append(podalPopup);
+                let podalContainer = document.createElement('div');
+                podalContainer.className = podalClasses.wrapper;
+                podalContainer.innerHTML = podalPopup;
+
+                document.body.appendChild(podalContainer);
 
                 var $lastPodal = $('.podal-wrapper:last'),
                     $lastBox = $lastPodal.find('.podal-box'),
