@@ -30,3 +30,41 @@ export const hasClass = (elem, className) => {
     }
     return false;
 };
+
+export const fadeIn = (elem, fn =()=>{}, speed) => {
+    elem.style.opacity = 0;
+
+    let last = +new Date();
+    const tick = function () {
+        elem.style.opacity = +elem.style.opacity + (new Date() - last) / 400;
+        last = +new Date();
+
+        if (+elem.style.opacity < 1) {
+            (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+        } else {
+            fn();
+        }
+    };
+    tick();
+};
+
+export const fadeOut = (elem, fn=()=>{}, speed) => {
+    elem.style.opacity = 0;
+
+    let last= +new Date();
+    const tick = function () {
+        elem.style.opacity = +elem.style.opacity + (new Date() - last) / 400;
+        last = +new Date();
+
+        if (+elem.style.opacity > 0) {
+            (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16);
+        } else {
+            fn();
+        }
+    };
+    tick();
+};
+
+export const delay = (fn=()=>{}, delay) => {
+    setTimeout(fn, delay);
+};
