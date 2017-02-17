@@ -172,37 +172,40 @@ let podal = function(action, callback = () => {}) {
 
                 document.body.appendChild(podalContainer);
 
-                var $lastPodal = $('.podal-wrapper:last'),
-                    $lastBox = $lastPodal.find('.podal-box'),
-                    $lastLoader = $lastBox.find('.podal-loading');
+                var lastPodal = document.body.querySelector('.podal-wrapper:last-child');
+                console.log(lastPodal);
+                var lastBox = lastPodal.querySelector('.podal-box');
+                var lastLoader = lastBox.querySelector('.podal-loading');
 
                 if (podalParams.cancelText) {
-                    $lastBox.find('.alert-cancel').one('click', function() {
-                        $lastPodal.remove();
-                    });
+                    lastBox.querySelector('.alert-cancel').onclick = function() {
+                        document.body.removeChild(lastPodal);
+                    };
                 }
 
                 if (podalParams.confirmText || podalParams.deleteText) {
-                    $lastLoader.show();
-                    $lastPodal.delay(podalParams.delay).fadeIn(podalParams.speed);
+                    lastLoader.style.display = '';
+                    lastPodal.delay(podalParams.delay).fadeIn(podalParams.speed);
 
-                    $lastLoader.addClass('pop');
+                    lastLoader.addClass('pop');
 
                     $('.alert-delete, .alert-confirm').one('click', function() {
-                        $lastPodal.delay(podalParams.delay).fadeIn(podalParams.speed, function() {
+                        lastPodal.delay(podalParams.delay).fadeIn(podalParams.speed, function() {
                             callback(true);
-                            $lastPodal.remove();
+                            lastPodal.remove();
                         });
                     });
                 } else {
-                    $lastLoader.show();
-                    $lastPodal.fadeIn(podalParams.peed, function() {
-                        if (podalParams.delay) {
-                            $lastPodal.delay(podalParams.delay).fadeOut(podalParams.peed, function() {
-                                $lastPodal.remove();
-                            });
-                        }
-                    });
+                    lastLoader.style.display = 'block';
+                    dom.fadeIn(lastPodal, function() {
+                        dom.delay(function(){
+                            console.log("callback!");
+                            dom.fadeOut(lastPodal, function() {
+                                console.log("callback!");
+                                document.body.removeChild(lastPodal);
+                            }, podalParams.speed);
+                        }, podalParams.delay)
+                    }, podalParams.speed);
                 }
 
                 break;
