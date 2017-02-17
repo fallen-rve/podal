@@ -31,7 +31,8 @@
         podal({show: true});
     };
     document.querySelector('.podal-submit').onclick = function submittedClick() {
-        podal({show: true, confirm: 'success', message: 'You Clicked!'});
+        podal({show: true, confirm: 'success', message: 'You Clicked!', delay: 3000, speed: 1000});
+        podal({show: false});
     };
 })();
 </script>
