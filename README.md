@@ -22,7 +22,7 @@ Your podal html should look something like this:
 
 ````
 <div id="myPodal" class="podal-wrapper">
-    <div class="podal-box"
+    <div class="podal-box">
         <div class="podal-title">
             <h3>My Cool Title Here<i class="fa fa-times podal-close"></i></h3>
         </div>
