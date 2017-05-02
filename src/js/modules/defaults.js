@@ -1,4 +1,5 @@
 import {podalClasses} from './classes';
+import {podal} from '../podal.jquery';
 let defaults = {
     speed: 100, // in ms
     delay: 100, // in ms
@@ -8,8 +9,8 @@ let defaults = {
     deleteText:  "",
     message:     "",
 
-    preProcess:  () => { },
-    postProcess: () => { },
+    preProcess:  podal.noop(),
+    postProcess: podal.noop(),
 };
 
 const podalHTML = `

@@ -6,9 +6,6 @@ import extendClass from './modules/utils';
 import * as dom from './modules/dom';
 import {podalClasses} from './modules/classes';
 
-// @TODO injectable html
-// @TODO create event handler functions
-// @TODO make close icon :after
 (function IIFE() {
     document.body.addEventListener('click', (e) => {
         if (dom.hasClass(e.target, podalClasses.close) || dom.hasClass(e.target, podalClasses.wrapper)) {
@@ -21,7 +18,7 @@ import {podalClasses} from './modules/classes';
 })();
 let podalParams = extendClass({}, defaults);
 
-let podal = function(action, callback = () => {}) {
+let podal = function(action, callback = podal.noop()) {
     podalParams = extendClass(defaults, action);
     let podalBox = document.querySelector(`.${podalClasses.box}`),
         isConfirm = false;
@@ -95,7 +92,7 @@ let podal = function(action, callback = () => {}) {
                     break;
                 }
 
-                $podalBox.delay(podalParams.delay).show(1, function() {
+                podalBox.delay(podalParams.delay).show(1, function() {
                     $(this).prepend($(loaderWrapper).append(loaderContent).fadeIn(podalParams.peed));
                 });
 
@@ -258,6 +255,7 @@ podal.postProcess = (callback) => {
         console.error("postProcess Callback must be a function!");
     }
 };
+podal.noop = () => {};
 
 if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
     module.exports = podal;
